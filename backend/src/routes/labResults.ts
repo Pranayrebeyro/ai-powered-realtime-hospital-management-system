@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/auth"; // Your Better Auth middleware
-import { checkRole } from "../middleware/checkRole"; // Your RBAC middleware
+
+import { requireAuth } from "../middleware/auth";
+import { checkRole } from "../middleware/checkRole";
+
 import {
   createLabResult,
   getPatientLabResults,
@@ -9,27 +11,82 @@ import {
 
 const labResultsRouter = Router();
 
-// POST: Upload an X-Ray (Allowed for Lab Techs, Doctors, Admins)
+/*
+ * Create a lab result / upload X-Ray.
+ *
+ * Allowed:
+ * - admin
+ * - doctor
+ * - lab_tech
+ *
+ * Patients and nurses cannot create lab results.
+ */
 labResultsRouter.post(
   "/",
   requireAuth,
-  checkRole(["admin", "doctor", "lab_tech"]),
+  checkRole([
+    "admin",
+    "doctor",
+    "lab_tech",
+  ]),
   createLabResult,
 );
 
-// GET: Fetch all X-Rays for a patient (Allowed for Medical Staff)
+/*
+ * Get lab results for a patient.
+ *
+ * Allowed:
+ * - admin
+ * - doctor
+ * - nurse
+ * - lab_tech
+ * - patient
+ *
+ * IMPORTANT:
+ * The controller verifies that a patient can
+ * only access their own patientId.
+ */
 labResultsRouter.get(
   "/patient/:patientId",
   requireAuth,
-  checkRole(["admin", "doctor", "nurse", "lab_tech"]),
+  checkRole([
+    "admin",
+    "doctor",
+    "nurse",
+    "lab_tech",
+    "patient",
+  ]),
   getPatientLabResults,
 );
 
-// PUT: Update X-Ray with AI Analysis or Doctor Notes
+/*
+ * Update a lab result.
+ *
+ * Allowed:
+ * - admin
+ * - doctor
+ * - lab_tech
+ *
+ * Field-level permissions are enforced inside
+ * the controller:
+ *
+ * AI analysis:
+ *   admin, lab_tech
+ *
+ * Doctor notes:
+ *   admin, doctor
+ *
+ * Status:
+ *   admin, doctor, lab_tech
+ */
 labResultsRouter.put(
   "/:id",
   requireAuth,
-  checkRole(["admin", "doctor", "lab_tech"]),
+  checkRole([
+    "admin",
+    "doctor",
+    "lab_tech",
+  ]),
   updateLabResult,
 );
 

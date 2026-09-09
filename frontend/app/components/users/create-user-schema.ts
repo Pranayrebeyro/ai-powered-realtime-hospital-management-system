@@ -2,10 +2,13 @@ import * as z from "zod";
 
 export const createUserSchema = z.object({
   name: z.string().min(2, "Name is required"),
-  email: z.email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
 
-  // Optional fields (validated loosely here, logic handled in component)
+  email: z.email("Invalid email address"),
+
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters"),
+
   specialization: z.string().optional(),
   department: z.string().optional(),
   age: z.string().optional(),
@@ -18,8 +21,9 @@ export const createUserSchema = z.object({
 export const userSchema = (isEdit: boolean) => {
   return z.object({
     name: z.string().min(2, "Name is required"),
+
     email: z.email("Invalid email address"),
-    // Optional fields (validated loosely here, logic handled in component)
+
     specialization: z.string().optional(),
     department: z.string().optional(),
     age: z.string().optional(),
@@ -27,18 +31,30 @@ export const userSchema = (isEdit: boolean) => {
     bloodgroup: z.string().optional(),
     medicalHistory: z.string().optional(),
     status: z.string().optional(),
+
     password: isEdit
       ? z
           .string()
           .optional()
-          .refine((val) => !val || val.length >= 6, {
-            message: "Password must be at least 6 characters",
-          })
-      : z.string().min(8, "Password must be at least 8 characters"),
+          .refine(
+            (value) =>
+              !value || value.length >= 8,
+            {
+              message:
+                "Password must be at least 8 characters",
+            },
+          )
+      : z
+          .string()
+          .min(
+            8,
+            "Password must be at least 8 characters",
+          ),
   });
 };
 
-export type UserValues = z.infer<ReturnType<typeof userSchema>>;
+export type UserValues =
+  z.infer<ReturnType<typeof userSchema>>;
 
 export const GENDER_OPTIONS = [
   { label: "Male", value: "Male" },
@@ -65,7 +81,6 @@ export const SPECIALIZATION_OPTIONS = [
   { label: "Dermatology", value: "Dermatology" },
 ];
 
-// --- NEW STATUS OPTIONS ---
 export const PATIENT_STATUS_OPTIONS = [
   { label: "Admitted", value: "admitted" },
   { label: "In Treatment", value: "in_treatment" },

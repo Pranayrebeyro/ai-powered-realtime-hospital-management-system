@@ -1,39 +1,107 @@
 import type { Route } from "../+types/root";
-import { Activity, Lock, Mail, ChevronRight, AlertCircle } from "lucide-react";
+
+import {
+  Activity,
+  Lock,
+  Mail,
+  ChevronRight,
+  AlertCircle,
+} from "lucide-react";
+
 import { CustomInput } from "@/components/global/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
-import { useNavigate, Navigate } from "react-router"; // Import this to redirect
+
+import {
+  useNavigate,
+  Navigate,
+} from "react-router";
+
 import { loginSchema } from "@/components/auth/login.schema";
 import Loader from "@/components/global/Loader";
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Login" },
-    { name: "description", content: "Login to our amazing Medflow" },
+    {
+      name: "description",
+      content: "Login to our amazing Medflow",
+    },
   ];
 }
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type LoginFormValues =
+  z.infer<typeof loginSchema>;
+
+/*
+ * Determine the correct landing page
+ * based on the authenticated user's role.
+ *
+ * Staff users:
+ *   -> Dashboard
+ *
+ * Patients:
+ *   -> Their own profile
+ */
+const getHomeRoute = (
+  user: {
+    id?: string;
+    role?: string | null;
+  },
+) => {
+  if (
+    user.role === "patient" &&
+    user.id
+  ) {
+    return `/profile/${user.id}`;
+  }
+
+  return "/dashboard";
+};
 
 const Login = () => {
-  const [globalError, setGlobalError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate(); // Hook for redirection
-  const { data: session, isPending } = authClient.useSession();
+  const [globalError, setGlobalError] =
+    useState("");
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "", rememberMe: false },
-  });
+  const [isLoading, setIsLoading] =
+    useState(false);
 
+  const navigate = useNavigate();
+
+  const {
+    data: session,
+    isPending,
+  } = authClient.useSession();
+
+  const form =
+    useForm<LoginFormValues>({
+      resolver:
+        zodResolver(loginSchema),
+
+      defaultValues: {
+        email: "",
+        password: "",
+        rememberMe: false,
+      },
+    });
+
+  /*
+   * Wait for Better Auth to finish
+   * checking the current session.
+   */
   if (isPending) {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -42,87 +110,198 @@ const Login = () => {
     );
   }
 
-  // Redirect if logged in
+  /*
+   * If the user is already logged in,
+   * send them to the correct page based
+   * on their role.
+   */
   if (session) {
-    return <Navigate to="/dashboard" replace />;
+    return (
+      <Navigate
+        to={getHomeRoute(
+          session.user,
+        )}
+        replace
+      />
+    );
   }
 
-  const onSubmit = async (data: LoginFormValues) => {
+  /*
+   * Login submission.
+   */
+  const onSubmit = async (
+    data: LoginFormValues,
+  ) => {
     setGlobalError("");
     setIsLoading(true);
-    await authClient.signIn.email(
-      {
-        email: data.email,
-        password: data.password,
-        rememberMe: data.rememberMe,
-      },
-      {
-        // Optional: Callbacks for cleaner logic
-        onSuccess: () => {
-          // we need to fix toast as it was not showing
-          toast.success("Login Successful!");
-          navigate("/dashboard"); // 👈 Redirect user after login
+
+    try {
+      await authClient.signIn.email(
+        {
+          email: data.email,
+          password: data.password,
+          rememberMe:
+            data.rememberMe,
         },
-        onError: (ctx) => {
-          // ctx.error.message contains the server response (e.g. "Invalid password")
-          setGlobalError(ctx.error.message);
+        {
+          onSuccess: async () => {
+            toast.success(
+              "Login Successful!",
+            );
+
+            /*
+             * Get the newly authenticated
+             * user's session so we know
+             * their role and user ID.
+             */
+            const {
+              data: currentSession,
+              error: sessionError,
+            } =
+              await authClient.getSession();
+
+            if (
+              sessionError ||
+              !currentSession
+            ) {
+              console.error(
+                "Failed to fetch session after login:",
+                sessionError,
+              );
+
+              /*
+               * Fallback to dashboard.
+               * The protected layout will
+               * enforce authorization.
+               */
+              navigate(
+                "/dashboard",
+              );
+
+              return;
+            }
+
+            /*
+             * Role-based redirect.
+             */
+            navigate(
+              getHomeRoute(
+                currentSession.user,
+              ),
+              {
+                replace: true,
+              },
+            );
+          },
+
+          onError: (ctx) => {
+            /*
+             * ctx.error.message contains
+             * the server response.
+             */
+            setGlobalError(
+              ctx.error.message,
+            );
+          },
         },
-      },
-    );
-    setIsLoading(false);
+      );
+    } catch (error) {
+      console.error(
+        "Login error:",
+        error,
+      );
+
+      setGlobalError(
+        error instanceof Error
+          ? error.message
+          : "Failed to sign in",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
-  // console.log(form.formState.errors);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
       <Card className="rounded-lg shadow-2xl card backdrop-blur-xl">
         <CardContent className="p-10 min-w-100 md:min-w-140.5">
-          {/* logo */}
+
+          {/* Logo */}
           <div className="flex flex-col items-center mb-10">
             <div className="bg-linear-to-tr from-blue-600 to-indigo-600 p-3 rounded-2xl shadow-lg shadow-blue-500/30 mb-4">
               <Activity className="text-white w-8 h-8" />
             </div>
+
             <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
               MedFlow AI
             </h1>
+
             <p className="text-slate-500 dark:text-slate-400 font-medium text-sm mt-1">
               Secure Provider Portal
             </p>
           </div>
-          {/* global error */}
+
+          {/* Global Error */}
           {globalError && (
             <div className="mb-6 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 p-4 rounded-2xl text-sm flex items-center gap-3 border border-red-100 dark:border-red-900/50 animate-in slide-in-from-top-2 fade-in">
-              <AlertCircle size={18} className="shrink-0" />
-              <span className="font-medium">{globalError}</span>
+              <AlertCircle
+                size={18}
+                className="shrink-0"
+              />
+
+              <span className="font-medium">
+                {globalError}
+              </span>
             </div>
           )}
-          {/* form */}
-          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            {/* input(custom) */}
+
+          {/* Form */}
+          <form
+            className="space-y-6"
+            onSubmit={form.handleSubmit(
+              onSubmit,
+            )}
+          >
+            {/* Email */}
             <CustomInput
               control={form.control}
               name="email"
               label="Email Address"
               placeholder="name@hospital.com"
               type="email"
-              startIcon={<Mail size={18} />}
+              startIcon={
+                <Mail size={18} />
+              }
             />
+
+            {/* Password */}
             <CustomInput
               control={form.control}
               name="password"
               label="Password"
               placeholder="••••••••"
               type="password"
-              startIcon={<Lock size={18} />}
+              startIcon={
+                <Lock size={18} />
+              }
             />
+
+            {/* Remember Me */}
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="remember"
-                  onCheckedChange={(checked) =>
-                    form.setValue("rememberMe", checked as boolean)
+                  onCheckedChange={(
+                    checked,
+                  ) =>
+                    form.setValue(
+                      "rememberMe",
+                      checked as boolean,
+                    )
                   }
                   className="border-slate-200 dark:border-slate-700 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                 />
+
                 <label
                   htmlFor="remember"
                   className="text-sm font-medium leading-none text-slate-500 dark:text-slate-400 cursor-pointer hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
@@ -130,6 +309,7 @@ const Login = () => {
                   Keep me signed in
                 </label>
               </div>
+
               <button
                 type="button"
                 className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
@@ -137,6 +317,8 @@ const Login = () => {
                 Forgot?
               </button>
             </div>
+
+            {/* Login Button */}
             <Button
               type="submit"
               disabled={isLoading}
@@ -145,11 +327,15 @@ const Login = () => {
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Verifying...</span>
+
+                  <span>
+                    Verifying...
+                  </span>
                 </div>
               ) : (
                 <div className="flex items-center justify-center gap-2">
                   Sign Into Portal
+
                   <ChevronRight
                     size={18}
                     className="group-hover:translate-x-1 transition-transform"

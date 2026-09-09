@@ -204,11 +204,15 @@ export const createCheckoutSession = async (invoiceId: string) => {
   return res.json();
 };
 
-export const getBillingHistory = async (userId: string) => {
-  const res = await fetch(`${API_URL}/invoices/history/${userId}`, {
+export const getBillingHistory = async () => {
+  const res = await fetch(`${API_URL}/invoices/history`, {
     credentials: "include",
   });
-  if (!res.ok) throw new Error("Failed to fetch billing history");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch billing history");
+  }
+
   return res.json();
 };
 
@@ -216,11 +220,27 @@ export const getAllInvoices = async (data?: {
   page?: number;
   limit?: number;
 }): Promise<PaginatedResponse<invoice>> => {
-  const res = await fetch(`${API_URL}/invoices`, {
-    credentials: "include",
-    body: JSON.stringify(data),
-  });
+  const params = new URLSearchParams();
+
+  if (data?.page) {
+    params.set("page", String(data.page));
+  }
+
+  if (data?.limit) {
+    params.set("limit", String(data.limit));
+  }
+
+  const query = params.toString();
+
+  const res = await fetch(
+    `${API_URL}/invoices${query ? `?${query}` : ""}`,
+    {
+      credentials: "include",
+    }
+  );
+
   if (!res.ok) throw new Error("Failed to fetch invoices");
+
   return res.json();
 };
 
