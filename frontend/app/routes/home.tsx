@@ -1,18 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { Navigate } from "react-router";
 
-import type { Route } from "./+types/home";
-
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "MedFlow AI Hospital Management System" },
+    {
+      name: "description",
+      content: "AI-powered realtime hospital management system",
+    },
   ];
 }
 
 export default function Home() {
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-    </div>
-  );
+  return <Navigate to="/login" replace />;
 }
