@@ -1,0 +1,523 @@
+{
+  "buildManifest": {
+    "serverBundles": {
+      "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0": {
+        "id": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+        "file": "build/server/nodejs_eyJydW50aW1lIjoibm9kZWpzIn0/index.js",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    },
+    "routeIdToServerBundleId": {
+      "routes/home": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/Login": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Dashboard": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Admins": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Doctors": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Nurses": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Patients": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/ActivitiesLog": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Profile": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/FinancialHistory": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/PharmacyInventory": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/PharmacyPrescriptions": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/PharmacyDispense": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/LabRequests": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/LabResults": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Appointments": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Telemedicine": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/SettingsGeneral": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/SettingsRoles": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/SettingsBilling": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Support": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/protected/Feedback": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0"
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "app/root.tsx",
+        "path": "",
+        "config": {}
+      },
+      "routes/home": {
+        "id": "routes/home",
+        "parentId": "root",
+        "file": "app/routes/home.tsx",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/Login": {
+        "id": "routes/Login",
+        "parentId": "root",
+        "file": "app/routes/Login.tsx",
+        "path": "login",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/layout": {
+        "id": "routes/protected/layout",
+        "parentId": "root",
+        "file": "app/routes/protected/layout.tsx",
+        "config": {}
+      },
+      "routes/protected/Dashboard": {
+        "id": "routes/protected/Dashboard",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Dashboard.tsx",
+        "path": "dashboard",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Admins": {
+        "id": "routes/protected/Admins",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Admins.tsx",
+        "path": "admins",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Doctors": {
+        "id": "routes/protected/Doctors",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Doctors.tsx",
+        "path": "doctors",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Nurses": {
+        "id": "routes/protected/Nurses",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Nurses.tsx",
+        "path": "nurses",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Patients": {
+        "id": "routes/protected/Patients",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Patients.tsx",
+        "path": "patients",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/ActivitiesLog": {
+        "id": "routes/protected/ActivitiesLog",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/ActivitiesLog.tsx",
+        "path": "activities-log",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Profile": {
+        "id": "routes/protected/Profile",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Profile.tsx",
+        "path": "profile/:id",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/FinancialHistory": {
+        "id": "routes/protected/FinancialHistory",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/FinancialHistory.tsx",
+        "path": "financial-history",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/PharmacyInventory": {
+        "id": "routes/protected/PharmacyInventory",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/PharmacyInventory.tsx",
+        "path": "pharmacy/inventory",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/PharmacyPrescriptions": {
+        "id": "routes/protected/PharmacyPrescriptions",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/PharmacyPrescriptions.tsx",
+        "path": "pharmacy/prescriptions",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/PharmacyDispense": {
+        "id": "routes/protected/PharmacyDispense",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/PharmacyDispense.tsx",
+        "path": "pharmacy/dispense",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/LabRequests": {
+        "id": "routes/protected/LabRequests",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/LabRequests.tsx",
+        "path": "lab/requests",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/LabResults": {
+        "id": "routes/protected/LabResults",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/LabResults.tsx",
+        "path": "lab/results",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Appointments": {
+        "id": "routes/protected/Appointments",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Appointments.tsx",
+        "path": "appointments",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Telemedicine": {
+        "id": "routes/protected/Telemedicine",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Telemedicine.tsx",
+        "path": "telemedicine",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/SettingsGeneral": {
+        "id": "routes/protected/SettingsGeneral",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/SettingsGeneral.tsx",
+        "path": "settings/general",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/SettingsRoles": {
+        "id": "routes/protected/SettingsRoles",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/SettingsRoles.tsx",
+        "path": "settings/roles",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/SettingsBilling": {
+        "id": "routes/protected/SettingsBilling",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/SettingsBilling.tsx",
+        "path": "settings/billing",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Support": {
+        "id": "routes/protected/Support",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Support.tsx",
+        "path": "support",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/protected/Feedback": {
+        "id": "routes/protected/Feedback",
+        "parentId": "routes/protected/layout",
+        "file": "app/routes/protected/Feedback.tsx",
+        "path": "feedback",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    }
+  },
+  "reactRouterConfig": {
+    "appDirectory": "/run/media/pranay/DATA/ai-powered-realtime-hospital-management-system/frontend/app",
+    "basename": "/",
+    "buildDirectory": "/run/media/pranay/DATA/ai-powered-realtime-hospital-management-system/frontend/build",
+    "future": {
+      "unstable_optimizeDeps": false,
+      "v8_passThroughRequests": false,
+      "v8_trailingSlashAwareDataRequests": false,
+      "unstable_previewServerPrerendering": false,
+      "v8_middleware": false,
+      "v8_splitRouteModules": false,
+      "v8_viteEnvironmentApi": false
+    },
+    "routes": {
+      "root": {
+        "id": "root",
+        "file": "root.tsx",
+        "path": ""
+      },
+      "routes/home": {
+        "id": "routes/home",
+        "parentId": "root",
+        "file": "routes/home.tsx",
+        "index": true
+      },
+      "routes/Login": {
+        "id": "routes/Login",
+        "parentId": "root",
+        "file": "routes/Login.tsx",
+        "path": "login"
+      },
+      "routes/protected/layout": {
+        "id": "routes/protected/layout",
+        "parentId": "root",
+        "file": "routes/protected/layout.tsx"
+      },
+      "routes/protected/Dashboard": {
+        "id": "routes/protected/Dashboard",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Dashboard.tsx",
+        "path": "dashboard"
+      },
+      "routes/protected/Admins": {
+        "id": "routes/protected/Admins",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Admins.tsx",
+        "path": "admins"
+      },
+      "routes/protected/Doctors": {
+        "id": "routes/protected/Doctors",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Doctors.tsx",
+        "path": "doctors"
+      },
+      "routes/protected/Nurses": {
+        "id": "routes/protected/Nurses",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Nurses.tsx",
+        "path": "nurses"
+      },
+      "routes/protected/Patients": {
+        "id": "routes/protected/Patients",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Patients.tsx",
+        "path": "patients"
+      },
+      "routes/protected/ActivitiesLog": {
+        "id": "routes/protected/ActivitiesLog",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/ActivitiesLog.tsx",
+        "path": "activities-log"
+      },
+      "routes/protected/Profile": {
+        "id": "routes/protected/Profile",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Profile.tsx",
+        "path": "profile/:id"
+      },
+      "routes/protected/FinancialHistory": {
+        "id": "routes/protected/FinancialHistory",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/FinancialHistory.tsx",
+        "path": "financial-history"
+      },
+      "routes/protected/PharmacyInventory": {
+        "id": "routes/protected/PharmacyInventory",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/PharmacyInventory.tsx",
+        "path": "pharmacy/inventory"
+      },
+      "routes/protected/PharmacyPrescriptions": {
+        "id": "routes/protected/PharmacyPrescriptions",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/PharmacyPrescriptions.tsx",
+        "path": "pharmacy/prescriptions"
+      },
+      "routes/protected/PharmacyDispense": {
+        "id": "routes/protected/PharmacyDispense",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/PharmacyDispense.tsx",
+        "path": "pharmacy/dispense"
+      },
+      "routes/protected/LabRequests": {
+        "id": "routes/protected/LabRequests",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/LabRequests.tsx",
+        "path": "lab/requests"
+      },
+      "routes/protected/LabResults": {
+        "id": "routes/protected/LabResults",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/LabResults.tsx",
+        "path": "lab/results"
+      },
+      "routes/protected/Appointments": {
+        "id": "routes/protected/Appointments",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Appointments.tsx",
+        "path": "appointments"
+      },
+      "routes/protected/Telemedicine": {
+        "id": "routes/protected/Telemedicine",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Telemedicine.tsx",
+        "path": "telemedicine"
+      },
+      "routes/protected/SettingsGeneral": {
+        "id": "routes/protected/SettingsGeneral",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/SettingsGeneral.tsx",
+        "path": "settings/general"
+      },
+      "routes/protected/SettingsRoles": {
+        "id": "routes/protected/SettingsRoles",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/SettingsRoles.tsx",
+        "path": "settings/roles"
+      },
+      "routes/protected/SettingsBilling": {
+        "id": "routes/protected/SettingsBilling",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/SettingsBilling.tsx",
+        "path": "settings/billing"
+      },
+      "routes/protected/Support": {
+        "id": "routes/protected/Support",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Support.tsx",
+        "path": "support"
+      },
+      "routes/protected/Feedback": {
+        "id": "routes/protected/Feedback",
+        "parentId": "routes/protected/layout",
+        "file": "routes/protected/Feedback.tsx",
+        "path": "feedback"
+      }
+    },
+    "routeDiscovery": {
+      "mode": "lazy",
+      "manifestPath": "/__manifest"
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": true,
+    "subResourceIntegrity": false,
+    "allowedActionOrigins": false,
+    "unstable_routeConfig": [
+      {
+        "id": "root",
+        "path": "",
+        "file": "root.tsx",
+        "children": [
+          {
+            "file": "routes/home.tsx",
+            "index": true
+          },
+          {
+            "file": "routes/Login.tsx",
+            "path": "login"
+          },
+          {
+            "file": "routes/protected/layout.tsx",
+            "children": [
+              {
+                "file": "routes/protected/Dashboard.tsx",
+                "path": "dashboard"
+              },
+              {
+                "file": "routes/protected/Admins.tsx",
+                "path": "admins"
+              },
+              {
+                "file": "routes/protected/Doctors.tsx",
+                "path": "doctors"
+              },
+              {
+                "file": "routes/protected/Nurses.tsx",
+                "path": "nurses"
+              },
+              {
+                "file": "routes/protected/Patients.tsx",
+                "path": "patients"
+              },
+              {
+                "file": "routes/protected/ActivitiesLog.tsx",
+                "path": "activities-log"
+              },
+              {
+                "file": "routes/protected/Profile.tsx",
+                "path": "profile/:id"
+              },
+              {
+                "file": "routes/protected/FinancialHistory.tsx",
+                "path": "financial-history"
+              },
+              {
+                "file": "routes/protected/PharmacyInventory.tsx",
+                "path": "pharmacy/inventory"
+              },
+              {
+                "file": "routes/protected/PharmacyPrescriptions.tsx",
+                "path": "pharmacy/prescriptions"
+              },
+              {
+                "file": "routes/protected/PharmacyDispense.tsx",
+                "path": "pharmacy/dispense"
+              },
+              {
+                "file": "routes/protected/LabRequests.tsx",
+                "path": "lab/requests"
+              },
+              {
+                "file": "routes/protected/LabResults.tsx",
+                "path": "lab/results"
+              },
+              {
+                "file": "routes/protected/Appointments.tsx",
+                "path": "appointments"
+              },
+              {
+                "file": "routes/protected/Telemedicine.tsx",
+                "path": "telemedicine"
+              },
+              {
+                "file": "routes/protected/SettingsGeneral.tsx",
+                "path": "settings/general"
+              },
+              {
+                "file": "routes/protected/SettingsRoles.tsx",
+                "path": "settings/roles"
+              },
+              {
+                "file": "routes/protected/SettingsBilling.tsx",
+                "path": "settings/billing"
+              },
+              {
+                "file": "routes/protected/Support.tsx",
+                "path": "support"
+              },
+              {
+                "file": "routes/protected/Feedback.tsx",
+                "path": "feedback"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}
