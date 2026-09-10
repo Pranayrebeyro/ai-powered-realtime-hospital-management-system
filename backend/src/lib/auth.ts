@@ -125,10 +125,6 @@ const ac = createAccessControl(statement);
 |--------------------------------------------------------------------------
 | Admin Role
 |--------------------------------------------------------------------------
-|
-| Admin gets the default Better Auth admin permissions plus
-| full permissions for hospital resources.
-|
 */
 
 const adminRole = ac.newRole({
@@ -204,9 +200,6 @@ const adminRole = ac.newRole({
 |--------------------------------------------------------------------------
 | Super Admin Role
 |--------------------------------------------------------------------------
-|
-| Super admin gets the same full permissions as admin.
-|
 */
 
 const superadminRole = ac.newRole({
@@ -454,6 +447,39 @@ export const auth = betterAuth({
     process.env.BETTER_AUTH_URL ||
     "http://localhost:5000",
 
+  /*
+  |--------------------------------------------------------------------------
+  | Cross-Site Session Cookie
+  |--------------------------------------------------------------------------
+  |
+  | Vercel frontend and Render backend use different sites.
+  |
+  | Production:
+  |   SameSite=None
+  |   Secure=true
+  |
+  | Development:
+  |   SameSite=Lax
+  |   Secure=false
+  |
+  */
+
+  advanced: {
+    cookies: {
+      session_token: {
+        attributes: {
+          sameSite:
+            process.env.NODE_ENV === "production"
+              ? "none"
+              : "lax",
+
+          secure:
+            process.env.NODE_ENV === "production",
+        },
+      },
+    },
+  },
+
   trustedOrigins: [
     process.env.FRONTEND_URL ||
       "http://localhost:5173",
@@ -473,18 +499,11 @@ export const auth = betterAuth({
     admin({
       defaultRole: "patient",
 
-      /*
-       * Your existing project uses adminRole.
-       * Keep it because it is already part of your current configuration.
-       */
       adminRole: [
         "admin",
         "superadmin",
       ],
 
-      /*
-       * Better Auth access control
-       */
       ac,
 
       roles: {
@@ -507,10 +526,6 @@ export const auth = betterAuth({
     polar({
       client: polarClient,
 
-      /*
-       * We disabled automatic Polar customer creation
-       * because signup previously returned a 401.
-       */
       createCustomerOnSignUp: false,
 
       use: [
