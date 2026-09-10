@@ -13,8 +13,11 @@ import {
   patientRole,
 } from "./permissions";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:5000",
+  baseURL: API_URL.replace(/\/api$/, ""),
 
   plugins: [
     adminClient({
