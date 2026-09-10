@@ -24,6 +24,9 @@ const defaultBilling: BillingSettings = {
   autoGenerateInvoice: true,
 };
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 export default function SettingsBilling() {
   const [settings, setSettings] =
     useState<BillingSettings>(defaultBilling);
@@ -53,7 +56,7 @@ export default function SettingsBilling() {
         setError("");
 
         const response = await fetch(
-          "http://localhost:5000/api/settings",
+          `${API_URL}/settings`,
           {
             credentials: "include",
           },
@@ -144,7 +147,7 @@ export default function SettingsBilling() {
       setError("");
 
       const response = await fetch(
-        "http://localhost:5000/api/settings",
+        `${API_URL}/settings`,
         {
           method: "PUT",
 

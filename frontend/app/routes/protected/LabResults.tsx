@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { authClient } from "@/lib/auth-client";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 type Patient = {
   _id: string;
